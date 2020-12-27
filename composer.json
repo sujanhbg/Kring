@@ -1,0 +1,26 @@
+{
+    "name": "sujanhbg/kring",
+    "description": "A simple micro framework for php development",
+    "type": "library",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Sujan C.Barty",
+            "email": "sujanhbg@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "kring\\core\\": "kring/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "doctrine/dbal": "^3.0",
+        "twig/twig": "^3.1",
+        "phpunit/phpunit": "^9.5",
+        "swiftmailer/swiftmailer": "^6.2",
+        "egulias/email-validator": "^2.1",
+        "phroute/phroute": "dev-master"
+    }
+}
