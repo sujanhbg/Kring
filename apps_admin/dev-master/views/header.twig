@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <title>{{ title }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ baseurl }}/css/w3.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ baseurl }}/css/style.css">
+    <link rel="stylesheet" href="{{ baseurl }}/css/colorl.css">
+    <body class="d1">
+        <div class="loader" id="loader"></div>
+        <div id="id01" class="w3-modal">
+            <div class="w3-modal-content w3-card-4 w3-animate-opacity d5" id="modal-content">
+                <header class="w3-container"> 
+                    <span onclick="document.getElementById('id01').style.display = 'none'" 
+                          class="w3-button w3-display-topright">&times;</span>
+                    <h2 id="modaltitle"></h2>
+                </header>
+                <div class="w3-container" id="modalbody" style="overflow: auto;">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="w3-bar w3-top w3-large d1 w3-card-4" style="z-index:4">
+        <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
+        <span class="w3-bar-item w3-left">PHP Coder</span>
+    </div>
+
+    <!-- Sidebar/menu -->
+    <nav class="w3-sidebar w3-collapse d4 w3-animate-left" style="z-index:3;width:300px;" id="sidebar"><br>
+        <div class="w3-container dblue">
+            <a href="{{ baseurl }}"><h5><i class="fa fa-home"></i> Home</h5></a>
+        </div>
+        <div class="w3-bar-block">
+
+            <a href="{{ baseurl }}/blog" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>Blog</a>   
+
+        </div>
+
+    </nav>
+    <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+    <div class="w3-main" style="margin-left:300px;margin-top:43px;">
+        <div id="mainbody" class="d1 w3-padding">

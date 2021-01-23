@@ -1,0 +1,8 @@
+<a class="w3-bar-item " href="{{ baseurl }}?app=profile"><i class="fa fa-sliders" aria-hidden="true"></i> Settings</a>
+<a class="w3-bar-item " href="{{ baseurl }}?app=content"><i class="fa fa-file" aria-hidden="true"></i> My Content</a>
+{% if session.UsrRole==22 or session.UsrRole==23  or session.UsrRole==24  or session.UsrRole==25  or session.UsrRole==26 %}
+
+    <a class="w3-bar-item " href="{{ baseurl }}/kalnicp" target="_blank"><span class="w3-badge">{{ session.UsrRole }}</span> Admin CP</a>
+
+{% endif %}
+<a class="w3-bar-item " href="{{ baseurl }}/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>

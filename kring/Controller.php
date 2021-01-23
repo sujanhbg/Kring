@@ -35,13 +35,125 @@ namespace kring\core;
  */
 class Controller {
 
+    public $adminarea;
+
+    function __construct() {
+        $this->adminarea = 0;
+    }
+
+    function kring() {
+        $kring = new Kring();
+        return $kring;
+    }
+
+    function baseurl() {
+        return $this->kring()->coreconf('baseurl');
+    }
+
+    function loadmodel($modelname) {
+        $defaultVersion = $this->kring()->coreconf("defaultVersion");
+        $modelfile = is_file(dirname(__DIR__) . "/" . $this->kring()->getApp() . "/" . $defaultVersion . "/models/Model_" . $modelname . ".php") ?
+                dirname(__DIR__) . "/" . $this->kring()->getApp() . "/" . $defaultVersion . "/models/Model_" . $modelname . ".php" : "File not found";
+        //echo dirname(__DIR__) . "/apps/" . $defaultVersion . "/models/Model_" . $modelname . ".php\n";
+
+        require_once $modelfile;
+        $model = "Model_" . $modelname;
+        return new $model();
+    }
+
+    function includeFileContent($fileName, $data) {
+        ob_start();
+        if (is_array($data)) {
+            extract($data);
+        }
+        ob_implicit_flush(false);
+        include ($fileName);
+        return ob_get_clean();
+    }
+
+    function lv($filename, $data) {
+        $themepath = $this->kring()->coreconf('theme');
+        if (is_array($data)) {
+            $lang['null'] = "None";
+            $data = array_merge($data, $lang);
+            $keys = null;
+            foreach (array_keys($data) as $kaename) {
+                $keys .= "{" . "$kaename" . "},";
+            }
+            $keysearch = explode(",", rtrim($keys, ","));
+            $valuetoplce = null;
+            foreach (array_values($data) as $keyvalues) {
+                if (is_array($keyvalues)) {
+                    $valuetoplce .= "None,";
+                } else {
+                    $valuetoplce .= $keyvalues . ",";
+                }
+            }
+            $valuetoplce22 = explode(",", rtrim($valuetoplce, ","));
+            // style and script intrigation
+            $global_search = [
+                "{baseurl}"
+            ];
+            $global_paste = [$this->kring()->coreconf('baseurl')];
+            if (is_file($themepath . "/{$filename}.php")) {
+                $loaderfile = $themepath . "/{$filename}.php";
+                // echo $filename . "-In system folder<br>";
+            } else {
+
+                echo $filename . ".php File not found<br>";
+            }
+
+            $themedata = $this->includeFileContent($loaderfile, $data);
+            $themedata = str_ireplace($global_search, $global_paste, $themedata);
+
+            // print_r($valuetoplce22);
+            echo str_ireplace($keysearch, $valuetoplce22, $themedata);
+        } else {
+            echo "Error:: Data of this page cannot be initialize";
+        }
+    }
+
+    function loadview($filename, $data) {
+        $this->lv($filename, $data);
+    }
+
+    public function tg($filename, $data) {
+        $themepath = $this->kring()->coreconf('theme');
+
+        if (is_file($themepath . "/{$filename}.twig")) {
+            $loaderpath = $themepath;
+            //echo $filename . "-In system folder<br>";
+        }
+
+        $array = ['baseurl' => $this->kring()->coreconf('baseurl')];
+        $loader = new \Twig\Loader\FilesystemLoader($themepath);
+        //Deployment mode
+        //$twig = new \Twig\Environment($loader, ['cache' => dirname(__DIR__) . "/cache",]);
+        //Development Mode
+        $twig = new \Twig\Environment($loader, ['debug' => true]);
+        echo $twig->render($filename . ".twig", array_merge($data, $array));
+    }
+
     public function rendTxt($output) {
-        header("Content-Type: text/plain");
-        return $output;
+        header("Content-Type: text/plain;charset=utf-8");
+        echo $output;
+    }
+
+    public function rendJson($param) {
+        header('Content-type:application/json;charset=utf-8');
+        echo $param;
     }
 
     public function rend($output) {
-        return $output;
+        echo $output;
+    }
+
+    public function rend_fd($param) {
+        if (isset($_GET['fd']) && $_GET['fd'] == "fd") {
+            return $param;
+        } else {
+            return $this->tg('home/dashboard.html', ['title' => "Kring"]);
+        }
     }
 
 }

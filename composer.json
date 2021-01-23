@@ -11,16 +11,16 @@
     ],
     "autoload": {
         "psr-4": {
-            "kring\\core\\": "kring/"
+            "kring\\core\\": "kring/",
+            "kring\\database\\": "kring/database",
+            "kring\\utilities\\": "kring/utilities"
         }
     },
     "minimum-stability": "dev",
     "require": {
-        "doctrine/dbal": "^3.0",
         "twig/twig": "^3.1",
-        "phpunit/phpunit": "^9.5",
         "swiftmailer/swiftmailer": "^6.2",
-        "egulias/email-validator": "^2.1",
-        "phroute/phroute": "dev-master"
+        "wixel/gump": "dev-master",
+        "nilportugues/sql-query-builder": "^1.8"
     }
 }

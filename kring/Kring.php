@@ -44,13 +44,36 @@ class Kring {
         
     }
 
+    function getApp() {
+        require(dirname(__DIR__) . "/configs/applications.php");
+        $defappfolder = isset($app[$this->getrequestarr()[1]]) ? $app[$this->getrequestarr()[1]] : "apps";
+        return $defappfolder;
+    }
+
     function coreconf($varname) {
-        require(dirname(__DIR__) . "/configs/core.php");
+        require(dirname(__DIR__) . "/configs/core_" . $this->getApp() . ".php");
         if (isset($core[$varname])) {
             return $core[$varname];
         } else {
             return false;
         }
+    }
+
+    function dbconf($varname) {
+        require(dirname(__DIR__) . "/configs/database.php");
+        if (isset($db[$varname])) {
+            return $db[$varname];
+        } else {
+            return false;
+        }
+    }
+
+    function getV() {
+        return $this->coreconf('defaultVersion');
+    }
+
+    function isloggedin() {
+        return true;
     }
 
     private function get_request() {
@@ -61,36 +84,74 @@ class Kring {
         return explode("/", $this->get_request());
     }
 
-    private function getClass() {
-        if (isset($_GET['app'])) {
-            $classname = ucfirst(strtolower($_GET['app'])) . "Controller";
-        } elseif (isset($this->getrequestarr()[1]) && strlen($this->getrequestarr()[1]) > 3) {
-            $classname = ucfirst(strtolower($this->getrequestarr()[1])) . "Controller";
+    public function getClassName() {
+        if ($this->getApp() == "apps") {
+            if (isset($_GET['app'])) {
+                $classname = ucfirst(strtolower($_GET['app']));
+            } elseif (isset($this->getrequestarr()[1]) && strlen($this->getrequestarr()[1]) > 1) {
+                $classname = ucfirst(strtolower($this->getrequestarr()[1]));
+            } else {
+                $classname = $this->coreconf('defaultController');
+            }
         } else {
-            $classname = $this->coreconf('defaultController');
+            if (isset($_GET['app'])) {
+                $classname = ucfirst(strtolower($_GET['app']));
+            } elseif (isset($this->getrequestarr()[2]) && strlen($this->getrequestarr()[2]) > 1) {
+                $classname = ucfirst(strtolower($this->getrequestarr()[2]));
+            } else {
+                $classname = $this->coreconf('defaultController');
+            }
         }
-        require_once dirname(__DIR__) . '/src/controllers/' . $classname . ".php";
-        return new $classname();
+        //echo $classname;
+        //exit();
+        return $classname;
     }
 
-    private function getMethod() {
-        if (isset($_GET['opt'])) {
-            $classname = strtolower($_GET['opt']);
-        } elseif (isset($this->getrequestarr()[2]) && strlen($this->getrequestarr()[2]) > 2) {
-            $classname = strtolower($this->getrequestarr()[2]);
+    private function getClass() {
+        $classname = $this->getClassName();
+        if ($classname == "Css" || $classname == "Js" || $classname == "Asset") {
+            require_once dirname(__DIR__) . '/kring/asset.php';
+            return new assets();
         } else {
-            $classname = $this->coreconf('defaultMethod');
+
+            if (is_file(dirname(__DIR__) . '/' . $this->getApp() . '/' . $this->getV() . '/controllers/' . $classname . ".php")) {
+                require_once dirname(__DIR__) . '/' . $this->getApp() . '/' . $this->getV() . '/controllers/' . $classname . ".php";
+                return new $classname();
+            } else {
+                require_once 'error.php';
+                return new \errorhndlr();
+            }
+        }
+    }
+
+    public function getMethod() {
+        if ($this->getApp() == "apps") {
+            if (isset($_GET['opt'])) {
+                $classname = strtolower($_GET['opt']);
+            } elseif (isset($this->getrequestarr()[2]) && strlen($this->getrequestarr()[2]) > 1) {
+                $classname = strtolower($this->getrequestarr()[2]);
+            } else {
+                $classname = $this->coreconf('defaultMethod');
+            }
+        } else {
+            if (isset($_GET['opt'])) {
+                $classname = strtolower($_GET['opt']);
+            } elseif (isset($this->getrequestarr()[3]) && strlen($this->getrequestarr()[3]) > 1) {
+                $classname = strtolower($this->getrequestarr()[3]);
+            } else {
+                $classname = $this->coreconf('defaultMethod');
+            }
         }
         return $classname;
     }
 
-    private function getparams() {
+    public function getparams() {
         $totalobj = count($this->getrequestarr());
         $totalindx = $totalobj - 1;
         $ret = [];
 
-        if ($totalobj > 3) {
-            $t = 3;
+        if ($totalobj > 1) {
+            $t = 2;
             while ($t <= $totalindx) {
                 $ret[$t] = $this->getrequestarr()[$t];
                 $t++;
@@ -104,8 +165,27 @@ class Kring {
     }
 
     public function Run() {
+        //echo "Get App:" . $this->getApp();
         $method = $this->getMethod();
-        echo $this->getClass()->$method($this->getparams()); // . "()";
+        if (method_exists($this->getClass(), $method)) {
+            if ($this->getClass()->adminarea == 1 && !$this->isloggedin()) {
+                
+            } else {
+                $this->getClass()->$method($this->getparams());
+            }
+            // . "()";
+        } elseif ($this->getClassName() == "Css") {
+            $this->getClass()->css($this->getparams());
+        } elseif ($this->getClassName() == "Js") {
+            $this->getClass()->jscript($this->getparams());
+        } elseif ($this->getClassName() == "Asset") {
+            $this->getClass()->asset();
+        } else {
+            require_once 'error.php';
+            $err = new \errorhndlr();
+            echo $err->index([]);
+        }
+
         //print_r($this->getparams());
     }
 
