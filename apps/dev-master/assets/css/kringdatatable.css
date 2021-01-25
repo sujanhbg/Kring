@@ -1,0 +1,68 @@
+.kdt{
+
+}
+.kdt input[type=search]{
+    padding: 8px;
+    border:1px solid #ccc;
+    background: url(https://i.imgur.com/eYI8Pbj.png) no-repeat;
+    background-size:24px 24px;
+    background-position:right center; 
+    padding-right:30px;
+    min-width: 200px;
+    max-width: 300px;
+}
+.kdt .datacounterSelect{
+    padding:8px;
+}
+.kdt .datatitle{
+    text-align: center;
+    font-size: 1.5em;
+    position: relative;
+    height: 50px;
+    padding: 10px;
+    background: #356aa0;
+    background: -moz-linear-gradient(top,  #356aa0 0%, #356aa0 100%);
+    background: -webkit-linear-gradient(top,  #356aa0 0%,#356aa0 100%);
+    background: linear-gradient(to bottom,  #356aa0 0%,#356aa0 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#356aa0', endColorstr='#356aa0',GradientType=0 );
+    color: #fff!important;
+
+}
+
+.kdt .newbtn{max-width: 200px!important;position:absolute;left: 10px;
+             white-space: nowrap;
+             overflow: hidden;
+             text-overflow: ellipsis;
+
+
+}
+
+.datacounterSelect option{border-bottom: 1px solid #ddd;}
+.pagicontainer{
+    margin-top: 20px;
+    border-top:2px solid darkslategray;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.pagination .activebtn{
+    border: 1px solid red;
+    padding: 5px 8px;
+    margin-top: 5px;
+}
+
+.pagination .disabled
+{
+    margin-right: 1px;
+    cursor: not-allowed;
+    pointer-events: none;
+    color: #1d2d44;
+    background-color:lightgray !important;
+    padding: 5px 8px;
+    margin-top: 5px;
+}
+
+.pagination a {
+    border: 1px solid #ddd; /* Gray */
+    padding: 5px 8px;
+    margin-top: 5px;
+}

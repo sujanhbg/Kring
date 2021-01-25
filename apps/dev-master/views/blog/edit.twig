@@ -1,0 +1,124 @@
+{% for blog_categoryE in blog_categoryEditData %}
+
+    <div class="w3-row">
+        <div class="w3-col s12">
+            &nbsp;
+        </div>
+        <div class="w3-col s12">
+
+
+            <div class="w3-container w3-border-bottom w3-border-green">
+                <b class="w3-large">Edit Blog Category</b>
+            </div>
+
+            <div class="w3-padding">
+                <form  method="POST" action="{{ baseurl }}/blog/editsave" onsubmit="return submitthisform(this);">
+                    <input type="hidden" name="ID" value="{{ blog_categoryE.ID }}">
+
+
+
+                    {# ----------subfor------------------------------ #}
+
+                    <div class="w3-row">
+                        <div class="w3-col s12 m2 l2">
+                            <div class="input-field  label w3-right-align w3-padding-small">
+                                <label>Subfor:</label>
+                            </div>
+                        </div>
+                        <div class="w3-col s12 m10 l10">
+                            <div class="input-field  w3-padding-small">
+                                <select name="subfor" id="subfor" class="w3-input w3-border" onchange="loadurl('{{ get_url }}&opt=blog_category_CheckValid&fname=subfor&fval=' + this.value','subformsgg');">
+
+
+                                    <option value="0" >Select Subfor</option>
+                                    {# Model
+                                        function get_subforSelectData(){
+                                            return $this->dbal()->query('SELECT `ID`,`category_name` FROM blog_category WHERE `deleted`=0');
+                                                }
+                                       Controller::
+                                           $data['subforSelectData']=$this->model()->get_subforSelectData();
+                                       #}
+                                    {% for subforoption in  subforSelectData %}
+                                        {% if subforoption.ID == blog_categoryE.subfor %}
+                                            <option style="background-color:#008AB8;color:#99D6EB" value="{{ subforoption.ID }}" selected>{{ subforoption.category_name }}</option>";
+                                        {% else %}
+                                            <option value="{{ subforoption.ID }}" >{{ subforoption.category_name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                </select><br>
+                            </div>
+                            <div class=""  id="subformsgg">
+                                &nbsp;
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    {# ----------category_name------------------------------ #}
+
+                    <div class="w3-row">
+                        <div class="w3-col s12 m2 l2">
+                            <div class="input-field  label w3-right-align w3-padding-small">
+                                <label>Category Name:</label>
+                            </div>
+                        </div>
+                        <div class="w3-col s12 m10 l10">
+                            <div class="input-field  w3-padding-small">
+                                <input type="text" name="category_name" id="category_name" class="w3-input w3-border"  value="{{ blog_categoryE.category_name }}"  onchange="loadurl('{{ get_url }}&opt=blog_category_CheckValid&fname=category_name&fval=' + this.value, 'category_namemsgg');">
+                            </div>
+                            <div class=""  id="category_namemsgg">
+                                &nbsp;
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div id="msg3rr"> </div>
+                    <div class="input-field w3-text-blue w3-center">
+                        <button class="btn waves-effect waves-light s-blue" id="savebtn">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+                        </button>
+                    </div>
+
+
+
+
+
+                </form>
+            </div>
+
+        </div>
+        <div class="w3-col s12">
+            &nbsp;
+        </div>
+    </div>
+
+
+{% endfor %}
+<script type="text/javascript">
+    function submitthisform(oFormElement) {
+        var loader = document.getElementById('loader');
+        loader.style.display = "block";
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.responseText === '1') {
+                snackbar('Edit Save Success');
+                loader.style.display = "none";
+                location.replace('{{ baseurl }}/blog');
+            } else {
+                document.getElementById('modalbody').innerHTML = xhr.responseText;
+                openmodal(30, 33);
+                loader.style.display = "none";
+            }
+        };
+        xhr.open(oFormElement.method, oFormElement.getAttribute("action"));
+        xhr.send(new FormData(oFormElement));
+
+        return false;
+    }
+
+</script>

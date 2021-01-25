@@ -26,7 +26,7 @@ use kring\database AS db;
  * THE SOFTWARE.
  */
 
-class Model_user {
+class Model_home {
 
     private $dval;
 

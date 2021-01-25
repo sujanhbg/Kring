@@ -8,20 +8,15 @@ class Home extends Controller {
     public $adminarea;
 
     function __construct() {
+        parent::__construct();
         $this->adminarea = 1;
-        $this->model = $this->loadmodel('user');
+        $this->model = $this->loadmodel('home');
     }
 
     function index($pr) {
-        $data['title'] = "Sujan@KringFW";
+        $data['title'] = "Admin Dashboard";
         $data['var'] = "Variable";
-        $data['userdata'] = $this->model->user_data();
-        $this->tg('home/body.html', $data);
-        //$this->lv('tex', $data);
-    }
-
-    function user($pr) {
-        
+        $this->tg('home/dashboard.html', $data);
     }
 
 }

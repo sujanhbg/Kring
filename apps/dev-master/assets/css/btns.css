@@ -1,0 +1,105 @@
+.btn,
+button {
+    position: relative;
+    box-shadow: inset 0 1px 0 0 #97c4fe;
+    background: linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+    background-color: #3d94f6;
+    border-radius: 2px;
+    border: 1px solid #337fed;
+    display: inline-block;
+    cursor: pointer;
+    color: #fff;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 8px 24px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #1570cd;
+    outline: none;
+}
+.btn:hover,
+button:hover {
+    background: linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
+    background-color: #1e62d0;
+}
+
+.btnw {
+    box-shadow: 0 1px 0 0 #fff6af;
+    background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+    background-color: #ffec64;
+    border-radius: 1px;
+    border: 1px solid #fa2;
+    display: inline-block;
+    cursor: pointer;
+    color: #333;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 8px 24px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #fe6;
+}
+.btnw:hover {
+    background: linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+    background-color: #ffab23;
+}
+
+.btnr {
+    box-shadow: inset 0 1px 0 0 #cf866c;
+    background: linear-gradient(to bottom, #d0451b 5%, #bc3315 100%);
+    background-color: #d0451b;
+    border-radius: 1px;
+    border: 1px solid #942911;
+    display: inline-block;
+    cursor: pointer;
+    color: #fff;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 8px 24px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #854629;
+}
+.btnr:hover {
+    background: linear-gradient(to bottom, #bc3315 5%, #d0451b 100%);
+    background-color: #bc3315;
+}
+.btng {
+    box-shadow: inset 0 1px 0 0 #9acc85;
+    background: linear-gradient(to bottom, #74ad5a 5%, #68a54b 100%);
+    background-color: #74ad5a;
+    border-radius: 1px;
+    border: 1px solid #3b6e22;
+    display: inline-block;
+    cursor: pointer;
+    color: #fff;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 8px 12px;
+    text-decoration: none;
+}
+.btng:hover {
+    background: linear-gradient(to bottom, #68a54b 5%, #74ad5a 100%);
+    background-color: #68a54b;
+}
+
+.btng:after {
+    content: "";
+    background: #90ee90;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px !important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.8s;
+}
+
+.btng:active:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s;
+}
