@@ -35,27 +35,8 @@ class Model_home {
         $this->dval = new db\dbal();
     }
 
-    function user_data() {
-        $sql = $this->dval->qb()
-                ->select()
-                ->setTable("blogs_content");
-        return $this->dval->query($sql);
-    }
-
-    function user_add() {
-        
-    }
-
-    function user_edit() {
-        
-    }
-
-    function user_delete() {
-        
-    }
-
-    function user_view() {
-        
+    function get_leveldata() {
+        return $this->dval->query("SELECT * FROM `eng_level` WHERE `published`=1 AND `deleted`=0");
     }
 
 }

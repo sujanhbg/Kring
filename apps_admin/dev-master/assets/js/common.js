@@ -43,14 +43,19 @@ function loadurl(url, divid) {
                 RunJS(divid);
             });
 }
-function loadurlold(url, divid) {
+function lr(url, divid) {
+    loadurl(url, divid);
+}
+function ssend(url) {
     var xhttp = new XMLHttpRequest();
     var loader = document.getElementById('loader');
     loader.style.display = "block";
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById(divid).innerHTML = this.responseText;
             loader.style.display = "none";
+            snackbar("done");
+        } else {
+            snackbar("Ssend request error");
         }
     };
     xhttp.open("GET", url, true);
@@ -109,4 +114,17 @@ function snackbar(msg) {
         x.className = x.className.replace("show", "");
     }, 3000);
 }
-    
+
+
+function toggleTheme() {
+    var theme = document.getElementsByTagName('link')[4];
+    if (theme.getAttribute('href') == '{{baseurl}}/css/colorl.css') {
+        ssend('{{baseurl}}/ctrl/switchtheme/color');
+        theme.setAttribute('href', '{{baseurl}}/css/color.css');
+        document.getElementById("themeicon").innerHTML = '<i class="fa fa-sun-o" aria-hidden="true"></i>';
+    } else {
+        ssend('{{baseurl}}/ctrl/switchtheme/colorl');
+        theme.setAttribute('href', '{{baseurl}}/css/colorl.css');
+        document.getElementById("themeicon").innerHTML = '<i class="fa fa-moon-o" aria-hidden="true"></i>';
+    }
+}

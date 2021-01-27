@@ -14,8 +14,12 @@ class Home extends Controller {
     }
 
     function index($pr) {
+        if (!isset($_SESSION['theme'])) {
+            $_SESSION['theme'] = "colorl";
+        }
         $data['title'] = "Admin Dashboard";
         $data['var'] = "Variable";
+        $data['totaluser'] = $this->model->usercount();
         $this->tg('home/dashboard.html', $data);
     }
 

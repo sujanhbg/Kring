@@ -1,0 +1,165 @@
+<div class="w3-row">
+    <div class="w3-col s12">
+        &nbsp;
+    </div>
+    <div class="w3-col s12">
+
+
+        <div class="w3-container w3-border-bottom w3-border-green">
+            <b class="w3-large">Add New Eng Level</b>
+        </div>
+
+        <div class="w3-padding">
+            <form  method="POST" action="{{ baseurl }}/blog/newsave" onsubmit="return submitthisform(this);">
+
+
+
+
+                {# ----------level------------------------------ #}
+
+                <div class="w3-row">
+                    <div class="w3-col s12 m2 l2">
+                        <div class="input-field  label w3-right-align w3-padding-small">
+                            <label>Level:</label>
+                        </div>
+                    </div>
+                    <div class="w3-col s12 m10 l10">
+                        <div class="input-field  w3-padding-small">
+                            <input type="text" name="level" id="level" class="w3-input w3-border"  onchange="loadurl('{{ get_url }}&opt=eng_level_CheckValid&fname=level&fval=' + this.value, 'levelmsgg');">
+                        </div>
+                        <div class=""  id="levelmsgg">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+
+
+
+                {# ----------level_desc------------------------------ #}
+
+                <div class="w3-row">
+                    <div class="w3-col s12 m2 l2">
+                        <div class="input-field  label w3-right-align w3-padding-small">
+                            <label>Level Desc:</label>
+                        </div>
+                    </div>
+                    <div class="w3-col s12 m10 l10">
+                        <div class="input-field  w3-padding-small">
+                            <textarea rows="5" name="level_desc" id="level_desc" class="w3-input w3-border" onchange="loadurl('{{ get_url }}&opt=eng_level_CheckValid&fname=subfor&fval=' + this.value','level_descmsgg');"></textarea>
+                        </div>
+                        <div class=""  id="level_descmsgg">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+
+
+
+                {# ----------CEFR_Level------------------------------ #}
+
+                <div class="w3-row">
+                    <div class="w3-col s12 m2 l2">
+                        <div class="input-field  label w3-right-align w3-padding-small">
+                            <label>CEFR Level:</label>
+                        </div>
+                    </div>
+                    <div class="w3-col s12 m10 l10">
+                        <div class="input-field  w3-padding-small">
+                            <input type="text" name="CEFR_Level" id="CEFR_Level" class="w3-input w3-border"  onchange="loadurl('{{ get_url }}&opt=eng_level_CheckValid&fname=CEFR_Level&fval=' + this.value, 'CEFR_Levelmsgg');">
+                        </div>
+                        <div class=""  id="CEFR_Levelmsgg">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+
+
+
+                {# ----------level_icon------------------------------ #}
+
+                <div class="w3-row">
+                    <div class="w3-col s12 m2 l2">
+                        <div class="input-field  label w3-right-align w3-padding-small">
+                            <label>Level Icon:</label>
+                        </div>
+                    </div>
+                    <div class="w3-col s12 m10 l10">
+                        <div class="input-field  w3-padding-small">
+                            <input type="text" name="level_icon" id="level_icon" class="w3-input w3-border"  onchange="loadurl('{{ get_url }}&opt=eng_level_CheckValid&fname=level_icon&fval=' + this.value, 'level_iconmsgg');">
+                        </div>
+                        <div class=""  id="level_iconmsgg">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+
+
+
+                {# ----------published------------------------------ #}
+
+                <div class="w3-row">
+                    <div class="w3-col s12 m2 l2">
+                        <div class="input-field  label w3-right-align w3-padding-small">
+                            <label>Published:</label>
+                        </div>
+                    </div>
+                    <div class="w3-col s12 m10 l10">
+                        <div class="input-field  w3-padding-small">
+                            <select name="published" id="published" class="w3-select w3-border" onchange="loadurl('{{ get_url }}&opt=eng_level_CheckValid&fname=subfor&fval=' + this.value','publishedmsgg');">
+                                <option value="1">Yes, Published</option>
+                                <option value="0">No Published</option>
+                            </select>
+                        </div>
+                        <div class=""  id="publishedmsgg">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div id="msg3rr"> </div>
+                <div class="input-field w3-text-blue w3-center">
+                    <button class="btn waves-effect waves-light s-blue" id="savebtn">
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+                    </button>
+                </div>
+
+
+
+
+
+            </form>
+        </div>
+
+    </div>
+    <div class="w3-col s12">
+        &nbsp;
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    function submitthisform(oFormElement) {
+    var loader = document.getElementById('loader');
+    loader.style.display = "block";
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+    if (xhr.responseText === '1') {
+    snackbar('Save Success');
+    loader.style.display = "none";
+    location.replace('{{ baseurl }}/eng_level');
+    } else {
+    document.getElementById('modalbody').innerHTML = xhr.responseText;
+    openmodal(30, 33);
+    loader.style.display = "none";
+    }
+    };
+    xhr.open(oFormElement.method, oFormElement.getAttribute("action"));
+    xhr.send(new FormData(oFormElement));
+    return false;
+    }
+
+</script>

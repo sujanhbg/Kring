@@ -91,10 +91,9 @@ class Controller {
             }
             $valuetoplce22 = explode(",", rtrim($valuetoplce, ","));
             // style and script intrigation
-            $global_search = [
-                "{baseurl}"
-            ];
-            $global_paste = [$this->kring()->coreconf('baseurl')];
+            $global_search = ["{baseurl}", "{ProjectName}", "{OrgName}"];
+            $global_paste = [$this->kring()->coreconf('baseurl'),
+                $this->kring()->conf('ProjectName'), $this->kring()->conf('OrgName')];
             if (is_file($themepath . "/{$filename}.php")) {
                 $loaderfile = $themepath . "/{$filename}.php";
                 // echo $filename . "-In system folder<br>";
@@ -125,12 +124,15 @@ class Controller {
             //echo $filename . "-In system folder<br>";
         }
 
-        $array = ['baseurl' => $this->kring()->coreconf('baseurl')];
+        $array = ['baseurl' => $this->kring()->coreconf('baseurl'),
+            'ProjectName' => $this->kring()->conf('ProjectName'),
+            'OrgName' => $this->kring()->conf('OrgName')
+        ];
         $loader = new \Twig\Loader\FilesystemLoader($themepath);
-        //Deployment mode
         //$twig = new \Twig\Environment($loader, ['cache' => dirname(__DIR__) . "/cache",]);
-        //Development Mode
         $twig = new \Twig\Environment($loader, ['debug' => true]);
+        $twig->addGlobal('session', $_SESSION);
+        $twig->addGlobal('loggedin', $this->kring()->isloggedin());
         echo $twig->render($filename . ".twig", array_merge($data, $array));
     }
 

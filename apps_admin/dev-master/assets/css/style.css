@@ -3,8 +3,19 @@
 @import url("kringdatatable.css");
 html,body,h1,h2,h3,h4,h5 {font-family: 'Roboto', sans-serif;}
 html,body{font-size:14px;line-height:1.2}
-
-
+.gump-error-message{
+    display: block;
+    margin-bottom: 5px;
+    color:red;
+    font-weight: bold;
+}.gump-error-message::before {
+  content: url(https://i.imgur.com/GimjK7u.png);
+}
+@media(max-width:601px){
+.label{
+    text-align: left!important;
+}
+}
 .w3-sidebar a:hover{background-color:#000!important;color:#fff!important}
 .w3-modal-content{}
 

@@ -3,6 +3,7 @@
     "description": "A simple micro framework for php development",
     "type": "library",
     "license": "Apache-2.0",
+	"minimum-stability": "dev",
     "authors": [
         {
             "name": "Sujan C.Barty",
@@ -16,11 +17,12 @@
             "kring\\utilities\\": "kring/utilities"
         }
     },
-    "minimum-stability": "dev",
+    
     "require": {
         "twig/twig": "^3.1",
         "swiftmailer/swiftmailer": "^6.2",
         "wixel/gump": "dev-master",
-        "nilportugues/sql-query-builder": "^1.8"
+        "nilportugues/sql-query-builder": "^1.8",
+        "tedivm/jshrink": "dev-master"
     }
 }

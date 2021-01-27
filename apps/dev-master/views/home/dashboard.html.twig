@@ -1,13 +1,20 @@
 {% include 'header.twig' %}
 <div class="w3-padding">
-    <h1>Admin Dashboard</h1>
+    <h1>Welcome to BD English for Exam</h1>
+    <div class="w3-row-padding">
 
+        {% for lvd in leveldata %}
+            <div class="w3-col s12 m4 l4" style="margin: auto;min-height: 250px;">
+                <div class="w3-card w3-border w3-padding w3-center d1" style="margin: auto;min-height: 240px;">
+                    <h2>{{ lvd.level }}</h2>
+                    <p>{{ lvd.level_desc }}</p>
+                    <a href="{{ baseurl }}/level/{{ lvd.ID }}" class="btn btng">{{ lvd.level }}</a>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
 </div>
-<label>Name:</label><input type="text">
-<label>vame:</label><input type="text">
-<label>came:</label><input type="text">
 
-<input type="submit" class="btn">
-<input type="submit" class="btnw">
 {% include 'fotter.twig' %}
 

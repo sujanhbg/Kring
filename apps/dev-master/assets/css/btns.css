@@ -1,6 +1,14 @@
 .btn,
 button {
     position: relative;
+    outline: none;
+}
+.btn:hover,
+button:hover {
+
+}
+
+.btnp {
     box-shadow: inset 0 1px 0 0 #97c4fe;
     background: linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
     background-color: #3d94f6;
@@ -15,14 +23,11 @@ button {
     padding: 8px 24px;
     text-decoration: none;
     text-shadow: 0 1px 0 #1570cd;
-    outline: none;
 }
-.btn:hover,
-button:hover {
+.btnp:hover {
     background: linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
     background-color: #1e62d0;
 }
-
 .btnw {
     box-shadow: 0 1px 0 0 #fff6af;
     background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);

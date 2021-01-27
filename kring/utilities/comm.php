@@ -2,8 +2,6 @@
 
 namespace kring\utilities;
 
-use kring\core;
-
 /*
  * The MIT License
  *
@@ -29,6 +27,10 @@ use kring\core;
  */
 
 class comm {
+
+    function kring() {
+        return new \kring\core\Kring();
+    }
 
     function filtertxt($strings) {
         $search = [
@@ -92,6 +94,14 @@ class comm {
             }
         }
         return $return;
+    }
+
+    function swiftmail() {
+        $transport = Swift_smtpTransport::newInstance($this->kring()->conf('mail_host')
+                        , $this->kring()->conf('mail_port'))
+                ->setUsername($this->kring()->conf('mail_username'))
+                ->setPassword($this->kring()->conf('mail_password'));
+        return new Swift_Mailer($transport);
     }
 
 }

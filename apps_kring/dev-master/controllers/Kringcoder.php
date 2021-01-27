@@ -43,8 +43,17 @@ class Kringcoder extends kring\core\Controller {
         $data['tablesInDb'] = $this->md()->get_tables();
         $data['sfd'] = "Tables_in_" . $this->md()->get_current_db();
         $data['dbName'] = $this->md()->get_current_db();
+        $data['apps'] = $this->md()->get_apps();
+        $_SESSION['sapp'] = isset($_SESSION['sapp']) ? $_SESSION['sapp'] : "apps";
         $this->tg('header', $data);
         $this->tg('fotter', $data);
+    }
+
+    function set_sess_app($pr) {
+
+        $_SESSION['sapp'] = isset($pr[4]) ? $pr[4] : "apps";
+        $_SESSION['sappname'] = isset($pr[5]) ? $pr[5] : "";
+        $this->rendTxt($_SESSION['sapp']);
     }
 
     function showtables($pr) {
@@ -565,11 +574,11 @@ EOT;
             switch ($fieldtype[$num]) {
                 case "textarea":
                     $fcontent = "&lt;textarea rows=\"5\" name=\"{$field}\" id=\"{$field}\" class=\"w3-input w3-border\" "
-                            . "onchange=\"loadurl('{{ get_url }}&{$soptstring}&fname=subfor&fval='+this.value','{$field}msgg');\"&gt;{$valuepasee2}&lt;/textarea&gt;";
+                            . "onchange=\"loadurl('{{ baseurl }}/?app={$table_name}&{$soptstring}&fname={$field}&fval='+this.value,'{$field}msgg');\"&gt;{$valuepasee2}&lt;/textarea&gt;";
                     break;
                 case "yn":
                     $fcontent = "&lt;select name=\"{$field}\" id=\"{$field}\" class=\"w3-select w3-border\" "
-                            . "onchange=\"loadurl('{{ get_url }}&{$soptstring}&fname=subfor&fval='+this.value','{$field}msgg');\"&gt;\n ";
+                            . "onchange=\"loadurl('{{ baseurl }}/?app={$table_name}&{$soptstring}&fname={$field}&fval='+this.value,'{$field}msgg');\"&gt;\n ";
                     if (isset($_POST['editform'])) {
                         $ynselected = "";
                     } else {
@@ -580,7 +589,7 @@ EOT;
                     $fcontent .= "\t\t&lt;/select&gt;";
                     break;
                 case "textarea2":
-                    $fcontent = "&lt;textarea id=\"{$field}_t\" class=\"w3-input w3-border\" name=\"{$field}\">{$valuepasee2}&lt;/textarea&gt;\n";
+                    $fcontent = "&lt;textarea id=\"{$field}_t\" class=\"w3-input w3-border\" name=\"{$field}\" onchange=\"loadurl('{{ baseurl }}/?app={$table_name}&{$soptstring}&fname={$field}&fval='+this.value,'{$field}msgg');\">{$valuepasee2}&lt;/textarea&gt;\n";
                     $jscontent .= <<<EOT
                                    &lt;script src="{{ theme }}/ck4/ckeditor.js"&gt;&lt;/script&gt;
                                     &lt;script type="text/javascript"&gt;
@@ -623,19 +632,6 @@ EOT;
           &lt;a href="../filemanager/dialog.php?type=1&amp;field_id={$field}" class="btn iframe-btn" type="button"&gt;Open Filemanager&lt;/a&gt;
           &lt;span id="{$field}_msg"&gt;&lt;/span&gt;
 
-          &lt;script&gt;
-            $('.iframe-btn').fancybox({
-                    'width'	: 900,
-                    'height'	: 600,
-                    'type'		: 'iframe',
-                    'autoScale'    	: false
-                });
-          function responsive_filemanager_callback(field_id){
-            var url=jQuery('#'+field_id).val();
-            $('#{$field}_preview').attr("src",url);
-            $.fancybox.close();
-        }
-         &lt;/script&gt;&lt;span id="_{$field}_msg"&gt;&lt;/span&gt;&lt;br&gt;
 
 
 EOTT;
@@ -693,7 +689,7 @@ EOT;
                     break;
                 case "autocomplitdataoption":
                     $fcontent = "&lt;input type=\"{$fieldtype[$num]}\" list=\"{$field}datalist\"  name=\"{$field}\" id=\"{$field}\" class=\"w3-input w3-border\" {$valuepasee} "
-                            . "onchange=\"loadurl('{{ get_url }}&{$soptstring}&fname={$field}&fval='+this.value,'{$field}msgg');\"&gt;";
+                            . "onchange=\"loadurl('{{ baseurl }}/?app={$table_name}&{$soptstring}&fname={$field}&fval='+this.value,'{$field}msgg');\"&gt;";
                     $fcontent .= "&lt;datalist id=\"{$field}datalist\"&gt;
 {# &#36;dataseet->{$field}dataset=&#36;this->query('SELECT `{$_REQUEST[$field . '1']}` FROM {$_REQUEST[$field . '_selectdb']} WHERE `deleted`=0'); #}
 {# &#36;data['{$field}dataset']=&#36;this->query('SELECT `{$_REQUEST[$field . '1']}` FROM {$_REQUEST[$field . '_selectdb']} WHERE `deleted`=0'); #}
@@ -705,7 +701,7 @@ EOT;
                     break;
                 default :
                     $fcontent = "&lt;input type=\"{$fieldtype[$num]}\" name=\"{$field}\" id=\"{$field}\" class=\"w3-input w3-border\" {$valuepasee} "
-                            . "onchange=\"loadurl('{{ get_url }}&{$soptstring}&fname={$field}&fval='+this.value,'{$field}msgg');\"&gt;";
+                            . "onchange=\"loadurl('{{ baseurl }}/?app={$table_name}&{$soptstring}&fname={$field}&fval='+this.value,'{$field}msgg');\"&gt;";
                 //----------------------------------------------------------------------------------------------------------------------------------
             }
 
@@ -869,7 +865,7 @@ EOT;
     &lt;/div>
 
     &lt;div class="w3-padding"&gt;
-	&lt;form  method="POST" action="{{ baseurl }}/blog/{$formaction}" onsubmit="return submitthisform(this);"&gt;
+	&lt;form  method="POST" action="{{ baseurl }}/{$table_name}/{$formaction}" onsubmit="return submitthisform(this);"&gt;
         {$add_editfield}
 
 	$frmdata
@@ -907,18 +903,23 @@ EOT;
     function makeController($pr) {
         $data['title'] = "Kring@PHP";
         $data['tablename'] = $pr[3];
+        $data['sapp'] = $_SESSION['sapp'];
         if (isset($pr[4]) && $pr[4] == "fd") {
             
         } else {
             echo "<pre><code class=\"php\">";
-            echo $this->md()->write_controller()[0];
+            $this->rendTxt($this->md()->write_controller()[0]);
             echo "</code></pre>";
+            $cnu = ucfirst($_REQUEST['tblnm']);
+            $filedir = $this->md()->kring()->get_dir() . "/" . $data['sapp'] . "/dev-master/controllers/";
+            $this->md()->writefile($filedir . $cnu . ".php", $this->md()->write_controller()[0]);
         }
     }
 
     function makemodel($pr) {
         $data['title'] = "Kring@PHP";
         $data['tablename'] = $pr[3];
+        $data['sapp'] = $_SESSION['sapp'];
         if (isset($pr[4]) && $pr[4] == "fd") {
             
         } else {
@@ -926,7 +927,36 @@ EOT;
             echo "<pre><code class=\"php\">";
             echo $this->md()->write_controller()[1];
             echo "</code></pre>";
+            $cn = $_REQUEST['tblnm'];
+            $filedir = $this->md()->kring()->get_dir() . "/" . $data['sapp'] . "/dev-master/models/";
+            //$this->md()->writefile($filedir . $cnu . ".php", $this->md()->write_controller()[1]);
+            $this->md()->writefile($filedir . "Model_" . $cn . ".php", $this->md()->write_controller()[1]);
         }
+    }
+
+    function makeview($pr) {
+        $data['sapp'] = $_SESSION['sapp'];
+        $filedir = $this->md()->kring()->get_dir() . "/" . $data['sapp'] . "/dev-master/views/{$_REQUEST['tblnm']}";
+        if (is_dir($filedir)) {
+            
+        } else {
+            mkdir($filedir);
+        }
+
+
+        echo "<div class=\"w3-xlarge\">{$_REQUEST['tblnm']}body.php</div>";
+        echo "<pre><code class=\"php\">";
+        echo $this->md()->writeView()[0];
+        echo "</code></pre>";
+        $this->md()->writefile($filedir . "/{$_REQUEST['tblnm']}body.php", $this->md()->writeView()[0]);
+
+
+
+        echo "<div class=\"w3-xlarge\">{$_REQUEST['tblnm']}data.php</div>";
+        echo "<pre><code class=\"php\">";
+        echo $this->md()->writeView()[1];
+        $this->md()->writefile($filedir . "/{$_REQUEST['tblnm']}data.php", $this->md()->writeView()[1]);
+        echo "</code></pre>";
     }
 
 }

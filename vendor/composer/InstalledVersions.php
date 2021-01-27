@@ -36,13 +36,12 @@ private static $installed = array (
   array (
     'doctrine/lexer' => 
     array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
+      'pretty_version' => '1.3.x-dev',
+      'version' => '1.3.9999999.9999999-dev',
       'aliases' => 
       array (
-        0 => '1.3.x-dev',
       ),
-      'reference' => 'cffe3e94d62f717a10a7d8614a19917f9311a5bc',
+      'reference' => '59bfb3b9be04237be4cd1afea9bbb58794c25ce8',
     ),
     'egulias/email-validator' => 
     array (
@@ -150,6 +149,16 @@ private static $installed = array (
         0 => '1.22.x-dev',
       ),
       'reference' => 'cc6e6f9b39fe8075b3dabfbaf5b5f645ae1340c9',
+    ),
+    'tedivm/jshrink' => 
+    array (
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
+      'aliases' => 
+      array (
+        0 => '9999999-dev',
+      ),
+      'reference' => '0513ba1407b1f235518a939455855e6952a48bbc',
     ),
     'twig/twig' => 
     array (

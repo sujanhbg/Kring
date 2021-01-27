@@ -28,4 +28,4 @@ $db['driver'] = "mysqli";
 $db['host'] = "localhost";
 $db['user'] = "root";
 $db['password'] = "";
-$db['database'] = "sujan_pw_blog";
+$db['database'] = "bdenglish4exam";

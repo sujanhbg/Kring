@@ -24,9 +24,11 @@
             </div>
         </div>
     </div>
-    <div class="w3-bar w3-top w3-large d1 w3-card-4" style="z-index:4">
-        <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
-        <span class="w3-bar-item w3-left">PHP Coder</span>
+    <div class="w3-bar w3-top w3-large d1 w3-card-4" style="z-index:4;height: 50px;">
+        <div style="margin: auto;" class="w3-padding">
+            <button class="w3-bar-item w3-hide-large" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;</button>
+            <span class="w3-bar-item w3-left">BDEnglish4Exam</span>
+        </div>
     </div>
 
     <!-- Sidebar/menu -->
@@ -38,6 +40,11 @@
 
             <a href="{{ baseurl }}/blog" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>Blog</a>   
 
+        </div>
+        <div class="w3-bar-block">
+            {% for lvd in leveldata %}
+                <a href="{{ baseurl }}/level/{{ lvd.ID }}" class="w3-bar-item" onclick="w3 - close();">{{ lvd.level }}</a>   
+            {% endfor %}
         </div>
 
     </nav>

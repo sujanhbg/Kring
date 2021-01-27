@@ -1,6 +1,9 @@
 page('/', index);
 page('/kring/kringcoder/showtables/:table', showtabledtail);
 page('/kring/kringcoder/formmaker/:table', formmaker);
+page('/kring/core', function () {
+    loadurl('{{baseurl}}/core/index/fd/fd', 'mainbody');
+});
 page();
 
 function index() {

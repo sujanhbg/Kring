@@ -36,5 +36,6 @@ OERR;
 <div class="w3-padding d2">
     <a class="w3-btn btn-primary" onclick="submitformf('{tablename}', 'mvc');">CRUD-Controller</a>
     <a class="w3-btn btn-green" onclick="viewmodel('{tablename}', 'mvc');">CRUD-Model</a>
+    <a class="w3-btn btn-green" onclick="makeview('{tablename}', 'mvc');">CRUD-View</a>
     <a class="w3-btn btn-warning" href="{baseurl}/kringcoder/formmaker/{tablename}">Form Maker</a>
 </div>

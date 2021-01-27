@@ -1,12 +1,33 @@
-function loadurl(url, divid)
-{
+function RunJS(divid) {
+    var ob = document.getElementById(divid).getElementsByTagName("script");
+    var s = document.createElement("script");
+    s.type = "text/javascript";
+    s.text = ob[0].text;
+    document.getElementsByTagName("head")[0].appendChild(s);
+}
+function loadurl(url, divid) {
+    var loader = document.getElementById('loader');
+    loader.style.display = "block";
+    fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById(divid).innerHTML = data;
+                loader.style.display = "none";
+                RunJS(divid);
+            });
+}
+function ssend(url) {
     var xhttp = new XMLHttpRequest();
     var loader = document.getElementById('loader');
     loader.style.display = "block";
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById(divid).innerHTML = this.responseText;
             loader.style.display = "none";
+            snackbar("done");
+            snackbar(this.responseText);
+
+        } else {
+            snackbar("Ssend request error");
         }
     };
     xhttp.open("GET", url, true);
@@ -57,31 +78,22 @@ function viewmodel(type, tablename)
     loader.style.display = "none";
     openmodal();
 }
-
-$("#savebtn").click(function () {
-    var url = "formmaker_gen.php?act=makeformac&tblnm={tablename}";
-    $("#formsubmitmsg").show();
-    $.ajax({
-        type: "POST",
-        url: url,
-        data: $("#form1").serialize(),
-        success: function (data)
-        {
-
-            if (data == 1) {
-                $("#modelbody").html("<b style='font-size:48px;'>Saved....</b>");
-
-            } else {
-                $("#mainbody").html(data);
-            }
-
-        }
-    });
-
-    return false;
-
-
-});
+function makeview(type, tablename)
+{
+    var loader = document.getElementById('loader');
+    loader.style.display = "block";
+    const url = "{{baseurl}}/kringcoder/makeview/" + tablename + "/" + type;
+    fetch(url, {
+        method: "POST",
+        body: new FormData(document.getElementById("mkform"))
+    }).then(
+            response => response.text()
+    ).then(
+            html => document.getElementById('modalbody').innerHTML = html
+    );
+    loader.style.display = "none";
+    openmodal();
+}
 
 function loadmoreoption(formtype, fieldname, fieldnm) {
     loadurl('{{baseurl}}/kringcoder/formoptions/?tblnm={tablename}&type=' + formtype + '&fieldnm=' + fieldname + '&form_field=' + fieldnm, fieldname + 'moreo');
@@ -120,4 +132,14 @@ function submitAutoForm(oFormElement, action = null)
     xhr.send(new FormData(oFormElement));
     loader.style.display = "none";
     return false;
+}
+
+
+function snackbar(msg) {
+    var x = document.getElementById("snackbar");
+    x.innerHTML = msg;
+    x.className = "show";
+    setTimeout(function () {
+        x.className = x.className.replace("show", "");
+    }, 3000);
 }

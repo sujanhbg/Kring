@@ -7,7 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ baseurl }}/css/style.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+    <!-- and it's easy to individually load additional languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/go.min.js"></script>
     <body class="d1">
         <div class="loader" id="loader"></div>
         <div id="id01" class="w3-modal">
@@ -24,19 +27,15 @@
             </div>
         </div>
     </div>
-    <div class="w3-bar w3-top w3-large d3" style="z-index:4">
-        <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
-        <span class="w3-bar-item w3-left">PHP Coder</span>
-    </div>
 
     <!-- Sidebar/menu -->
-    <nav class="w3-sidebar w3-collapse d4 w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <nav class="w3-sidebar w3-collapse d4" style="z-index:3;width:300px;" id="mySidebar"><br>
         <div class="w3-container dblue">
             <a href="{{ baseurl }}"><h5><i class="fa fa-users fa-home"></i> Dashboard</h5></a>
         </div>
         <div class="w3-bar-block">
 
-            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>menuitm</a>   
+            <a href="{{ baseurl }}/core" class="w3-bar-item w3-button w3-padding"><i class="fa fa-file-code-o fa-fw"></i>Create Controller</a>   
 
         </div>
         <div class="w3-container">
@@ -49,5 +48,25 @@
         </div>
     </nav>
     <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
-    <div class="w3-main" style="margin-left:300px;margin-top:43px;">
-        <div id="mainbody" class="d1">
+    <div class="w3-main" style="margin-left:300px;">
+        <div class="w3-bar w3-large d3 w3-padding-small">
+            <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
+            <span class="w3-bar-item w3-left">PHP Coder@Kring</span>
+
+
+            <div class="w3-right">
+                <div class="w3-dropdown-hover w3-right">
+                    <button class="w3-button" id="defappname">{{ session.sapp }}</button>
+                    <div class="w3-dropdown-content w3-bar-block w3-border"  style="right:0">
+                        <a href="javascript:void(0)" onclick="loadurl('{{ baseurl }}/kringcoder/set_sess_app/apps', 'defappname');" class="w3-bar-item w3-button">/ (Apps)</a>
+
+                        {% for appname, app in apps %}
+                            <a href="javascript:void(0)" onclick="loadurl('{{ baseurl }}/kringcoder/set_sess_app/{{ app }}/{{ appname }}', 'defappname');" class="w3-bar-item w3-button">/{{ appname }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="mainbody" class="d1 w3-padding">

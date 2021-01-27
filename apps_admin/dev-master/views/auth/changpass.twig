@@ -1,0 +1,49 @@
+<div class="w3-panel w3-padding d3 w3-centered">
+    <div style="max-width: 350px;">
+        <h1>Change Passowrd</h1>
+        <form method="POST" action="{{ baseurl }}/profile/change_pass_conf/?fd=new" onsubmit="return changepassword(this);">
+            Old Password:<br>
+            <input type="password" name="oldpass" class="input"><br><br>
+
+            New Password:<br>
+            <input type="password" name="newpass" id="newpass" class="input">
+            <input type="checkbox" class="w3-check" onclick="showpass('newpass')">Show Password<br><br>
+
+            Confirm New Password:<br>
+            <input type="password" name="renewpass" class="input"><br><br>
+
+            <input type="submit" value="Change Password" class="btn btnr">
+        </form>
+    </div>
+</div>
+
+
+<script>
+    function showpass(idd) {
+        var x = document.getElementById(idd);
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+    function changepassword(oFormElement) {
+        var loader = document.getElementById('loader');
+        loader.style.display = "block";
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.responseText == '1') {
+                document.getElementById('mainbody').innerHTML = '<h1>Password Changed</h1>';
+                setInterval(function () {
+                    location.replace('{{ baseurl }}/auth/logout')}, 500);
+            } else {
+                document.getElementById('modalbody').innerHTML = xhr.responseText;
+                openmodal(60, 50);
+            }
+        };
+        xhr.open(oFormElement.method, oFormElement.getAttribute("action"));
+        xhr.send(new FormData(oFormElement));
+        loader.style.display = "none";
+        return false;
+    }
+</script>

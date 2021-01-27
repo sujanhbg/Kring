@@ -66,7 +66,8 @@ class assets {
         $search = ["{{baseurl}}", "{{ baseurl }}", "{{baseurl }}", "{{ baseurl}}"];
         $paste = [$this->baseurl()];
         $filecontent = is_file($dir . "/" . $filename) ? file_get_contents($dir . "/" . $filename) : "File " . $dir . "/" . $filename . " is not loaded";
-        echo str_replace($search, $paste, $filecontent);
+        //echo str_replace($search, $paste, $filecontent);
+        echo \JShrink\Minifier::minify(str_replace($search, $paste, $filecontent), array('flaggedComments' => false));
     }
 
     function asset() {

@@ -27,7 +27,13 @@ THE SOFTWARE.
 */
 
 
-.d1{
+.d00{
+    background-color:#f2f2f2;
+    color:#000;
+}.d0, .leftmenu{
+    background-color:#1a1a1a;
+    color:#fff;
+}.d1{
     background-color:#f2f2f2;
     color:#000;
 }

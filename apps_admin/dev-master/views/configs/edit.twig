@@ -1,0 +1,106 @@
+
+{% for configsE in configsEditData %}
+
+    <div class="w3-row">
+        <div class="w3-col s12">
+            &nbsp;
+        </div>
+        <div class="w3-col s12">
+
+
+            <div class="w3-container w3-border-bottom w3-border-green">
+                <b class="w3-large">Edit Configs</b>
+            </div>
+
+            <div class="w3-padding">
+                <form  method="POST" action="{{ baseurl }}/configs/editsave" onsubmit="return submitthisform(this);">
+                    <input type="hidden" name="ID" value="{{ configsE.ID }}">
+
+
+
+                    {# ----------name------------------------------ #}
+
+                    <div class="w3-row">
+                        <div class="w3-col s12 m2 l2">
+                            <div class="input-field  label w3-right-align w3-padding-small">
+                                <label>Name:</label>
+                            </div>
+                        </div>
+                        <div class="w3-col s12 m10 l10">
+                            <div class="input-field  w3-padding-small">
+                                <input type="text" name="name" id="name" class="w3-input w3-border"  value="{{ configsE.name }}"  onchange="loadurl('{{ baseurl }}/?app=configs&opt=configs_CheckValid&fname=name&fval=' + this.value, 'namemsgg');">
+                            </div>
+                            <div class=""  id="namemsgg">
+                                &nbsp;
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    {# ----------value------------------------------ #}
+
+                    <div class="w3-row">
+                        <div class="w3-col s12 m2 l2">
+                            <div class="input-field  label w3-right-align w3-padding-small">
+                                <label>Value:</label>
+                            </div>
+                        </div>
+                        <div class="w3-col s12 m10 l10">
+                            <div class="input-field  w3-padding-small">
+                                <input type="text" name="value" id="value" class="w3-input w3-border"  value="{{ configsE.value }}"  onchange="loadurl('{{ baseurl }}/?app=configs&opt=configs_CheckValid&fname=value&fval=' + this.value, 'valuemsgg');">
+                            </div>
+                            <div class=""  id="valuemsgg">
+                                &nbsp;
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div id="msg3rr"> </div>
+                    <div class="input-field w3-text-blue w3-center">
+                        <button class="btn waves-effect waves-light s-blue" id="savebtn">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+                        </button>
+                    </div>
+
+
+
+
+
+                </form>
+            </div>
+
+        </div>
+        <div class="w3-col s12">
+            &nbsp;
+        </div>
+    </div>
+
+
+{% endfor %}
+<script type="text/javascript">
+    function submitthisform(oFormElement) {
+        var loader = document.getElementById('loader');
+        loader.style.display = "block";
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.responseText === '1') {
+                snackbar('Edit Save Success');
+                loader.style.display = "none";
+                location.replace('{{ baseurl }}/configs');
+            } else {
+                document.getElementById('modalbody').innerHTML = xhr.responseText;
+                openmodal(30, 33);
+                loader.style.display = "none";
+            }
+        };
+        xhr.open(oFormElement.method, oFormElement.getAttribute("action"));
+        xhr.send(new FormData(oFormElement));
+
+        return false;
+    }
+
+</script>

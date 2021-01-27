@@ -1,36 +1,39 @@
 
-.d1{
+.d00{
     background-color:#0d0d0d ;
     color:#ffffff;
 }
-.d2{
+.d0{
     background-color:#1a1a1a ;
     color:#ffffff;
+}.leftmenu{
+    background-color:#1a1a1a;
+    color:#fff;
 }
-.d3{
+.d1{
     background-color:#262626 ;
     color:#ffffff;
 }
-.d4{
+.d2{
     background-color:#333333 ;
     color:#ffffff;
 }
-.d5{
+.d3{
     background-color:#595959 ;
     color:#ffffff;
 }
 
-.d6{
+.d4{
     background-color:#666666 ;
     color:#ffffff;
 }
 
-.d7{
+.d5{
     background-color:#737373 ;
     color:#ffffff;
 }
 
-.d8{
+.d6{
     background-color:#808080 ;
     color:#ffffff;
 }
@@ -51,3 +54,8 @@
 .text-red{color: #990000!important;}
 .text-yellow,.text-y{color: #b3b300!important;}
 .text-blue{color: #006bb3!important}
+
+
+.w3-table-all tr:nth-child(odd){background-color:#333333!important;border-bottom: #595959;}
+.w3-table-all tr:nth-child(even){background-color:#404040!important;border-bottom: #595959;}
+.w3-table-all{border:1px solid #595959!important;}

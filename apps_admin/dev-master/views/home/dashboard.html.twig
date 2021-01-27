@@ -3,11 +3,35 @@
     <h1>Admin Dashboard</h1>
 
 </div>
-<label>Name:</label><input type="text">
-<label>vame:</label><input type="text">
-<label>came:</label><input type="text">
-
-<input type="submit" class="btn">
-<input type="submit" class="btnw">
+<div class="w3-row-padding w3-xlarge">
+    <div class="w3-col s12 m3 l3">
+        <div class="w3-dark-gray w3-card w3-padding w3-center">
+            <a href="#">
+                <h3>Registared User</h3>
+                {{ totaluser }}
+            </a>
+        </div>
+    </div>
+    <div class="w3-col s12 m3 l3">
+        <div class="w3-deep-orange w3-card w3-padding w3-center">
+        <h3>Total Visitor</h3>
+        125
+        </div>
+    </div>
+    <div class="w3-col s12 m3 l3">
+        <div class="w3-blue w3-card w3-padding w3-center">
+        <h3>Live Visitor</h3>
+        12
+        </div>
+    </div>
+            
+    <div class="w3-col s12 m3 l3">
+        <div class="w3-pink w3-card w3-padding w3-center">
+        <h3>Top Scored!</h3>
+        12
+        </div>
+    </div>
+    
+</div>
 {% include 'fotter.twig' %}
 

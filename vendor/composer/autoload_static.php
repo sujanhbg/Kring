@@ -119,6 +119,16 @@ class ComposerStaticInitd2a3f55a8dc2be27bffbcb4a0b617a07
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'J' => 
+        array (
+            'JShrink' => 
+            array (
+                0 => __DIR__ . '/..' . '/tedivm/jshrink/src',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
@@ -129,6 +139,7 @@ class ComposerStaticInitd2a3f55a8dc2be27bffbcb4a0b617a07
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitd2a3f55a8dc2be27bffbcb4a0b617a07::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitd2a3f55a8dc2be27bffbcb4a0b617a07::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitd2a3f55a8dc2be27bffbcb4a0b617a07::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitd2a3f55a8dc2be27bffbcb4a0b617a07::$classMap;
 
         }, null, ClassLoader::class);

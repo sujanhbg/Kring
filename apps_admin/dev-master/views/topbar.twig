@@ -1,0 +1,59 @@
+<div class="w3-display-container w3-card d2" style="height:45px;z-index: 7">
+
+    <div class="w3-display-left w3-padding">
+        <i class="fa fa-bars w3-bar-item w3-button w3-hide-large" onclick="w3_open();"></i>
+    </div>
+    <div class="w3-display-right">
+        <span class="w3-btn" onclick="toggleTheme()" id="themeicon">
+            {% if session.theme=="color" %}
+            <i class="fa fa-sun-o" aria-hidden="true"></i>
+            {% else %}
+            <i class="fa fa-moon-o" aria-hidden="true"></i>
+            {% endif %}
+            </span>
+
+        <div class="w3-dropdown-hover w3-right">
+            <span class="w3-btn"><i class="fa fa-envelope" aria-hidden="true"></i> <span class="w3-badge w3-green">9</span></span>
+            <div class="w3-dropdown-content w3-card-4 d4" style="width:250px;right: 0">
+                <img src="https://www.w3schools.com/w3css/img_london.jpg" alt="London" style="width:100%">
+                <div class="w3-container">
+                    <p>London is the capital city of England.</p>
+                    <p>It is the most populous city in the UK.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-dropdown-hover">
+            <span class="w3-btn"><i class="fa fa-bell" aria-hidden="true"></i> <span class="w3-badge w3-amber">12</span></span>
+            <div class="w3-dropdown-content w3-card-4 d4" style="width:250px;right: 0">
+                <img src="https://www.w3schools.com/w3css/img_london.jpg" alt="London" style="width:100%">
+                <div class="w3-container">
+                    <p>London is the capital city of England.</p>
+                    <p>It is the most populous city in the UK.</p>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="w3-dropdown-hover w3-right">
+            <span class="w3-btn"><i class="fa fa-user" aria-hidden="true"></i> <span class="w3-hide-small">{{ session.UsrName }}</span>
+                <div class="w3-dropdown-content w3-card d4" style="right: 0">
+                    <img src="https://pbs.twimg.com/profile_images/707516754692612096/EDl6s5sk_400x400.jpg" alt="Tokyo" style="width:100%">
+                    <div class="w3-bar-block">
+                        <a href="{{ baseurl }}/profile/my" class="w3-bar-item w3-btn">Profile</a>
+                        <a href="{{ baseurl }}/profile/changepassword" class="w3-bar-item w3-btn">Change Password</a>
+                        <a href="{{ baseurl }}/auth/logout" class="w3-bar-item w3-btn">Logout</a>
+                    </div>
+                </div>
+        </div>
+
+
+
+
+
+
+
+    </div>
+
+</div>

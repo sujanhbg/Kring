@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Login@{{ ProjectName }}</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Righteous&family=Roboto&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="{{ baseurl }}/css/w3.css" type="text/css" rel="stylesheet" media="screen,projection" />
+        <link href="{{ baseurl }}/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+        <link href="{{ baseurl }}/css/color.css" type="text/css" rel="stylesheet" media="screen,projection" />
+        <style>
+
+            .mdbox{
+                background-color: #fff;
+                position: absolute;
+                top:0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+                box-shadow: 0px 0px 6px 4px rgba(0,0,0,0.53);
+                -webkit-box-shadow: 0px 0px 6px 4px rgba(0,0,0,0.53);
+                -moz-box-shadow: 0px 0px 6px 4px rgba(0,0,0,0.53);
+                padding: 16px;
+
+            }
+
+            @media (min-width:601px){.mdbox{max-width: 500px;max-height: 500px;-webkit-border-radius: 5px;
+                                            -moz-border-radius: 5px;
+                                            border-radius: 5px;}}
+            @media (max-width:600px){.mdbox{max-width: 100%;min-height: 80vh;}}
+
+
+
+
+
+        </style>
+        <script type="text/javascript">
+            if (typeof (EventSource) !== "undefined") {
+                var source2 = new EventSource("{{ baseurl }}/auth/isloggedin");
+                source2.onmessage = function (event) {
+                    if (event.data == "true") {
+                        location.reload();
+                    }
+                };
+            }
+        </script>
+
+    </head>
+    <body class="d5">
+        <div id="loader">
+            <div id="loader-border">
+                <div id="cssload-whitespace">
+                    <div id="cssload-line">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="ress" class="w3-center w3-large w3-padding"></div>
+        <div>
+            <div class="mdbox w3-center w3-padding-32 w3-large l1">
+                <h1 style="font-family: 'Righteous';">
+                    {{ ProjectName }}
+                </h1>
+
+                <br><br>
+                <form id="logindforms" action="{{ baseurl }}/auth/login" method="POST" onsubmit="return submitlogin(this);">
+
+
+                    <input class="w3-input w3-border w3-large" name="email" id="email" type="email" placeholder="Email Address">
+                    <br><br>
+                    <input class="w3-input w3-border w3-large" name="password" id="password" type="password" placeholder="Enter Password">
+                    <br><br>
+                    <button type="submit" class="btn btnb w3-large"><i class="w3-large fa fa-sign-in"></i> Login</button>
+                    <br><br><br>
+                    Forgot <a class="w3-text-blue" href="?app=auth&opt=forgotpass">Username / Password?</a>
+                </form>
+
+
+
+
+            </div>
+        </div>
+
+
+
+        <h5 style="font-family: 'Roboto'; position: fixed;bottom: 0px; color: #009e6c;">
+            @{{ OrgName }}
+        </h5>
+
+
+        <script type="text/javascript">
+
+            function submitlogin(oFormElement) {
+                var loader = document.getElementById('loader');
+                loader.style.display = "block";
+                var xhr = new XMLHttpRequest();
+                xhr.onload = function () {
+                    if (xhr.responseText == '1') {
+                        document.getElementById('ress').innerHTML = "Succes";
+                        location.reload();
+                    } else {
+                        document.getElementById('ress').innerHTML = xhr.responseText;
+                    }
+                };
+                xhr.open(oFormElement.method, oFormElement.getAttribute("action"));
+                xhr.send(new FormData(oFormElement));
+                loader.style.display = "none";
+                return false;
+            }
+        </script>
+
+
+
+
+    </body>
+</html>

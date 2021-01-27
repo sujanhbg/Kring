@@ -50,6 +50,27 @@ class Kring {
         return $defappfolder;
     }
 
+    function get_dir() {
+        return dirname(__DIR__);
+    }
+
+    function configfile($filename) {
+        if (is_file(dirname(__DIR__) . "/configs/{$filename}.php")) {
+            require(dirname(__DIR__) . "/configs/{$filename}.php");
+        } else {
+            exit($filename . " Can not be included;Please Check! the " . dirname(__DIR__) . "/configs/{$filename}.php");
+        }
+    }
+
+    function getapps() {
+        if (is_file(dirname(__DIR__) . "/configs/applications.php")) {
+            require(dirname(__DIR__) . "/configs/applications.php");
+            return $app;
+        } else {
+            exit($filename . " Can not be included;Please Check! the " . dirname(__DIR__) . "/configs/{$filename}.php");
+        }
+    }
+
     function coreconf($varname) {
         require(dirname(__DIR__) . "/configs/core_" . $this->getApp() . ".php");
         if (isset($core[$varname])) {
@@ -68,12 +89,17 @@ class Kring {
         }
     }
 
+    function conf($key) {
+        $dval = new \kring\database\dbal();
+        return $dval->get_single_result("SELECT value FROM configs WHERE name='{$key}' LIMIT 1;");
+    }
+
     function getV() {
         return $this->coreconf('defaultVersion');
     }
 
     function isloggedin() {
-        return true;
+        return isset($_SESSION['UsrID']) && isset($_SESSION['UsrName']) && isset($_SESSION['UsrRole']) ? true : false;
     }
 
     private function get_request() {
@@ -118,9 +144,28 @@ class Kring {
                 require_once dirname(__DIR__) . '/' . $this->getApp() . '/' . $this->getV() . '/controllers/' . $classname . ".php";
                 return new $classname();
             } else {
-                require_once 'error.php';
-                return new \errorhndlr();
+                require_once dirname(__DIR__) . '/' . $this->getApp() . '/' . $this->getV() . '/controllers/' . "Home.php";
+                return new \Home();
             }
+        }
+    }
+
+    function getAuthClass() {
+        if (is_file(dirname(__DIR__) . '/' . $this->getApp() . '/' . $this->getV() . '/controllers/' . "Auth.php")) {
+            require_once dirname(__DIR__) . '/' . $this->getApp() . '/' . $this->getV() . '/controllers/' . "Auth.php";
+            if (class_exists("Auth")) {
+                return true;
+            } else {
+                require_once 'error.php';
+                $err = new \errorhndlr();
+                echo $err->error("Class Auth not found on Auth Controller", "Rename or define Class Name 'Auth'");
+                return false;
+            }
+        } else {
+            require_once 'error.php';
+            $err = new \errorhndlr();
+            echo $err->error("Controller Auth.php not found", "Create a Controller with Auth.php name");
+            return false;
         }
     }
 
@@ -165,13 +210,26 @@ class Kring {
     }
 
     public function Run() {
-        //echo "Get App:" . $this->getApp();
+        require_once 'error.php';
+        $err = new \errorhndlr();
         $method = $this->getMethod();
         if (method_exists($this->getClass(), $method)) {
             if ($this->getClass()->adminarea == 1 && !$this->isloggedin()) {
-                
+                if (in_array($method, ['login', 'register', 'index', 'logout'], true)) {
+                    if ($this->getAuthClass()) {
+                        $auth = new \Auth();
+                        $auth->$method($this->getparams());
+                    }
+                } else {
+                    echo $err->index([]);
+                }
             } else {
-                $this->getClass()->$method($this->getparams());
+                $pagejs = isset($this->getClass()->pagejs) ? $this->getClass()->pagejs : 0;
+                if ($pagejs == 1 && !isset($_GET['fd'])) {
+                    $this->getClass()->index($this->getparams());
+                } else {
+                    $this->getClass()->$method($this->getparams());
+                }
             }
             // . "()";
         } elseif ($this->getClassName() == "Css") {
@@ -181,8 +239,7 @@ class Kring {
         } elseif ($this->getClassName() == "Asset") {
             $this->getClass()->asset();
         } else {
-            require_once 'error.php';
-            $err = new \errorhndlr();
+
             echo $err->index([]);
         }
 

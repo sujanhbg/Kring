@@ -124,4 +124,82 @@ eotty;
         return $this->rend(json_encode(['name' => 'Sujan']));
     }
 
+    function error($message, $solution) {
+        return <<<eotty
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap" rel="stylesheet">
+        <style>
+        body {
+  background-color: #ffcccc;
+}
+
+.mainbox {
+  background-color: #ffcccc;
+  margin: auto;
+  height: 600px;
+  width: 800px;
+  position: relative;
+}
+
+  .err {
+    color: #990000;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 11rem;
+    position:absolute;
+    left: 20%;
+    top: 8%;
+  }
+
+.far {
+  position: absolute;
+  font-size: 8.5rem;
+  left: 42%;
+  top: 15%;
+  color: #990000;
+}
+
+ .err2 {
+    color: #990000;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 11rem;
+    position:absolute;
+    left: 68%;
+    top: 8%;
+  }
+
+.msg {
+    text-align: center;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1rem;
+    position:absolute;
+    left: 16%;
+    top: 45%;
+    width: 75%;
+  }
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+        </style>
+  <script src="https://kit.fontawesome.com/4b9ba14b0f.js" crossorigin="anonymous"></script>
+</head>
+<body>
+        <h1>Kring@Error</h1>
+  <div class="mainbox">
+    <div class="msg">
+    <h1>{$message}</h1>
+    <p>{$solution}</p>
+   </div>
+      </div> 
+          
+<script src="{$this->baseurl()}/js/page.js"></script>
+<script src="{$this->baseurl()}/js/app.js"></script>        
+eotty;
+    }
+
 }
