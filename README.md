@@ -81,4 +81,12 @@ class Home extends Controller {
     
     }
 ```
+
+here $this->adminarea=0; define, access level of your application. In you need to your authentication change it to 1 instead if 0. 
+
+## Kring use Twig as templete engine by useing $this->tg('templatefile',$data as arrey). You can also use $this->lv('templatefile.php',$data as array) method for codeignighter style templating.
+
+
+
+
 ###### Comming soon
