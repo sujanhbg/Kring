@@ -8,6 +8,7 @@ or
 Clone it into your machine
 
 ###### Configure Apache
+```
 DocumentRoot "path/to/project/public"
 <Directory "path/to/project/public">
     Options Indexes FollowSymLinks Includes ExecCGI
@@ -18,7 +19,7 @@ DocumentRoot "path/to/project/public"
 		RewriteCond %{REQUEST_URI} !\.jpg$ [NC]
 		RewriteRule ^(.*)$ index.php [NC,L]
 </Directory>
-
+```
 Ingnore .htaccess file for speed up your web application
 ### Use:
 ##### Creating Database
@@ -34,13 +35,23 @@ $db['user'] = "root";
 $db['password'] = "";
 $db['database'] = "databasename";
 ```
-####Your application folde is apps/
-apps folder contain dev-master folder which define your current development version
-the dev-master folder assets, controllers, models ans view folder
-First create new controller with model
+#### Your application folde is apps/
+apps folder contain dev-master folder which define your current development version.
+
+
+The dev-master folder assets, controllers, models ans view folder.
+
+
+First create new controller with model.
+
+
 Open http://yourapplication/kring
+
+Use user name as Admin, Password as Admin1@1
+
+
 in left side click create controller, then write your controller name (The default controller name is Home.php) press enter.
-This action will create Yourcontrollername.php in controllers folder and Model_yourcontrollername.php in models folder.
+This action will create **Yourcontrollername.php** in controllers folder and **Model_yourcontrollername.php** in models folder.
 
 open your controller file
 
@@ -70,3 +81,4 @@ class Home extends Controller {
     
     }
 ```
+###### Comming soon
