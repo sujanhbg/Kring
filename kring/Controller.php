@@ -61,6 +61,17 @@ class Controller {
         return new $model();
     }
 
+    function crud($crudname) {
+        $defaultVersion = $this->kring()->coreconf("defaultVersion");
+        $modelfile = is_file(dirname(__DIR__) . "/" . $this->kring()->getApp() . "/" . $defaultVersion . "/crud/crud_" . $crudname . ".php") ?
+                dirname(__DIR__) . "/" . $this->kring()->getApp() . "/" . $defaultVersion . "/crud/crud_" . $crudname . ".php" : "File not found";
+        //echo dirname(__DIR__) . "/apps/" . $defaultVersion . "/models/Model_" . $modelname . ".php\n";
+
+        require_once $modelfile;
+        $model = "crud_" . $crudname;
+        return new $model();
+    }
+
     function includeFileContent($fileName, $data) {
         ob_start();
         if (is_array($data)) {

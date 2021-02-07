@@ -36,6 +36,13 @@ class errorhndlr extends Controller {
 
     function er404() {
         $kore = new Kring();
+        $hostname = $_SERVER['REMOTE_ADDR'];
+        if ($hostname == '127.0.0.1') {
+            $ipexxcee = "Try Class:{$kore->getClassName()}(){......}<br>
+          Try Method: {$kore->getMethod()}(){.......}<br>";
+        } else {
+            $ipexxcee = "";
+        }
         return <<<eotty
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap" rel="stylesheet">
@@ -106,8 +113,8 @@ a:hover {
     <div class="err2">4</div>
     <div class="msg">Maybe this page moved? Got deleted? Is hiding out in quarantine? 
         Never existed in the first place?<p>Let's go <a href="{$kore->coreconf('baseurl')}">home</a> and try from there.</p>
-            Try Class:{$kore->getClassName()}(){......}<br>
-          Try Method: {$kore->getMethod()}(){.......}<br></div>
+   {$ipexxcee}         
+   </div>
       </div> 
           
 <script src="{$this->baseurl()}/js/page.js"></script>

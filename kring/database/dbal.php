@@ -119,4 +119,52 @@ class dbal {
         }
     }
 
+    function db_switch_val($table, $coloumn, $ID) {
+        $sqlx = "SELECT `{$table}`.`{$coloumn}` FROM `{$table}` WHERE `{$table}`.`ID`={$ID} LIMIT 1";
+        $val = $this->get_single_result($sqlx);
+        if ($val == 1) {
+            $getcols = "`{$table}`." . $coloumn . "=0";
+        } else {
+            $getcols = "`{$table}`." . $coloumn . "=1";
+        }
+
+        $query = "UPDATE `{$table}` SET $getcols WHERE `{$table}`.`ID`={$ID} LIMIT 1;";
+        return $this->update_database($query);
+    }
+
+    function insert($table, $data, $outsql = false) {
+        $sql = "INSERT INTO `{$table}` ";
+        $keys = "(";
+        $vals = "(";
+        foreach ($data as $key => $value) {
+            $keys .= "`{$key}`,";
+            $vals .= "'" . mysqli_real_escape_string($this->conn(), $value) . "',";
+        }
+        $keys = rtrim($keys, ",") . ") VALUES ";
+        $vals = rtrim($vals, ",") . ");";
+        if ($outsql == 1) {
+            return $sql . $keys . $vals;
+        } else {
+            return $this->query_exc($sql . $keys . $vals);
+        }
+    }
+
+    function update($table, $data, $where, $outsql = false) {
+        $sql = "UPDATE `{$table}` SET ";
+        $val = null;
+        foreach ($data as $key => $value) {
+            $val .= "`{$key}`='" . mysqli_real_escape_string($this->conn(), $value) . "',";
+        }
+        foreach ($where as $keya => $valuea) {
+            $keyret = "`{$keya}`" . "= '" . $valuea . "'";
+        }
+        $val = rtrim($val, ",");
+        $sql .= $val . " WHERE " . $keyret . " LIMIT 1;";
+        if ($outsql == 1) {
+            return $sql;
+        } else {
+            return $this->update_database($sql);
+        }
+    }
+
 }

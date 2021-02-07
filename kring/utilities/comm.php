@@ -97,8 +97,8 @@ class comm {
     }
 
     function swiftmail() {
-        $transport = Swift_smtpTransport::newInstance($this->kring()->conf('mail_host')
-                        , $this->kring()->conf('mail_port'))
+        $transport = (new Swift_SmtpTransport($this->kring()->conf('mail_host')
+                        , $this->kring()->conf('mail_port')))
                 ->setUsername($this->kring()->conf('mail_username'))
                 ->setPassword($this->kring()->conf('mail_password'));
         return new Swift_Mailer($transport);
