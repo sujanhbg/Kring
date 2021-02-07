@@ -1,13 +1,15 @@
 {
     "name": "sujanhbg/kring",
-    "description": "A simple micro framework for php development",
+    "description": "A simple micro framework for php development with MVC design pattern",
     "type": "library",
-    "license": "Apache-2.0",
+    "license": "MIT",
     "minimum-stability": "dev",
     "authors": [
         {
             "name": "Sujan C.Barty",
-            "email": "sujanhbg@gmail.com"
+            "email": "sujanhbg@gmail.com",
+            "homepage": "https://www.sujan.pw",
+            "role": "Developer"
         }
     ],
     "autoload": {
