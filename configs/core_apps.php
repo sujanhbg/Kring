@@ -7,11 +7,13 @@
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
+ *
  * * Redistributions of source code must retain the above copyright notice, this
  *   list of conditions and the following disclaimer.
  * * Redistributions in binary form must reproduce the above copyright notice,
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
+ *
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -26,8 +28,43 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/*
+ * Call default controller if router/Url not defined
+ */
 $core['defaultController'] = "Home";
+/*
+ * Call Default method of controller class for render
+ */
 $core['defaultMethod'] = "index";
-$core['defaultVersion'] = "dev-master";
+/*
+ * default version is cockie based;
+ *
+ */
+$core['defaultVersion'] = isset($_SESSION['softv']) ? $_SESSION['softv'] : "dev-master";
 $core['baseurl'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? "https://" : "http://" . $_SERVER['SERVER_NAME'];
 $core['theme'] = dirname(__DIR__) . "/apps/" . $core['defaultVersion'] . "/views";
+$core['accesslimit'] = false;
+$core['AllowedCountry'] = ["Bangladesh"];
+$core['AllowProxy'] = false;
+
+/*
+ * True if web want to save visitor log in database
+ * it need to more space to database
+ * couse this save every visitor request of website
+ */
+$core['SaveLogInDb'] = true;
+
+/*
+ * Save IP Data in /kdata/ipdata directory
+ */
+$core['SaveIpDataInFile'] = false;
+
+/*
+ * Get Config from Database
+ */
+$core['GetCnfValFromDB'] = false;
+
+/*
+ * If False That can be allow user without athentication method
+ */
+$core['loginwithDB'] = true;

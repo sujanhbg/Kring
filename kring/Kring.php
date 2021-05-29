@@ -43,7 +43,7 @@ class Kring {
     public $arguments;
 
     function __construct() {
-        
+
     }
 
     function getApp() {
@@ -92,8 +92,12 @@ class Kring {
     }
 
     function conf($key) {
-        $dval = new \kring\database\dbal();
-        return $dval->get_single_result("SELECT value FROM configs WHERE name='{$key}' LIMIT 1;");
+        if ($this->coreconf('GetCnfValFromDB') == true) {
+            $dval = new \kring\database\dbal();
+            return $dval->get_single_result("SELECT value FROM configs WHERE name='{$key}' LIMIT 1;");
+        } else {
+            return null;
+        }
     }
 
     function getV() {
@@ -209,34 +213,43 @@ class Kring {
 
     private function ipdtls() {
         //http://ip-api.com/json/{query}?fields=4976639
-        $ip = $_SERVER['REMOTE_ADDR'];
-        if (!file_exists(dirname(__DIR__) . "/kdata/ipdata/{$ip}.json")) {
-            $url = "http://ip-api.com/json/{$_SERVER['REMOTE_ADDR']}?fields=4976639";
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_URL, $url);
-            $result = curl_exec($ch);
-            $myfile = fopen(dirname(__DIR__) . "/kdata/ipdata/{$ip}.json", "w") or die("Unable to open file!");
-            fwrite($myfile, $result);
+        if ($this->coreconf('SaveIpDataInFile') == true) {
+            $ip = $_SERVER['REMOTE_ADDR'];
+            if (!file_exists(dirname(__DIR__) . "/kdata/ipdata/{$ip}.json")) {
+                $url = "http://ip-api.com/json/{$_SERVER['REMOTE_ADDR']}?fields=4976639";
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_URL, $url);
+                $result = curl_exec($ch);
+                $myfile = fopen(dirname(__DIR__) . "/kdata/ipdata/{$ip}.json", "w") or die("Unable to open file!");
+                fwrite($myfile, $result);
+                return $result;
+            } else {
+                return file_get_contents(dirname(__DIR__) . "/kdata/ipdata/{$ip}.json");
+            }
+        } else {
+            return null;
         }
     }
 
     private function addstats() {
-        $dbal = new database\dbal();
-        $sessionid = session_id();
-        $userip = $_SERVER['REMOTE_ADDR'];
-        $useragent = $_SERVER['HTTP_USER_AGENT'];
-        if (!$dbal->num_of_row("SELECT `ID` FROM `v_sessions` WHERE `session_id`='{$sessionid}'")) {
-            $sess = "INSERT INTO `v_sessions`"
-                    . "(`ID`, `session_id`, `user_ip`, `date_time`, `user_agent`)"
-                    . " VALUES "
-                    . "(NULL,'{$sessionid}','{$userip}',NOW(),'{$useragent}')";
-            $dbal->query_exc($sess);
+        if ($this->coreconf('SaveLogInDb') == true) {
+            $dbal = new database\dbal();
+            $sessionid = session_id();
+            $userip = $_SERVER['REMOTE_ADDR'];
+            $useragent = $_SERVER['HTTP_USER_AGENT'];
+            if (!$dbal->num_of_row("SELECT `ID` FROM `v_sessions` WHERE `session_id`='{$sessionid}'")) {
+                $sess = "INSERT INTO `v_sessions`"
+                        . "(`ID`, `session_id`, `user_ip`, `date_time`, `user_agent`)"
+                        . " VALUES "
+                        . "(NULL,'{$sessionid}','{$userip}',NOW(),'{$useragent}')";
+                $dbal->query_exc($sess);
+            }
+            $pageurl = $this->get_request();
+            $getpageid = $dbal->get_single_result("SELECT ID FROM v_pages WHERE pageurl='{$pageurl}'");
+            $pageid = $getpageid ? $getpageid : $dbal->insert('v_pages', ['pageurl' => $pageurl]);
+            $dbal->insert('v_visit', ["session_id" => $sessionid, "page_id" => $pageid]);
         }
-        $pageurl = $this->get_request();
-        $getpageid = $dbal->get_single_result("SELECT ID FROM v_pages WHERE pageurl='{$pageurl}'");
-        $pageid = $getpageid ? $getpageid : $dbal->insert('v_pages', ['pageurl' => $pageurl]);
-        $dbal->insert('v_visit', ["session_id" => $sessionid, "page_id" => $pageid]);
     }
 
     public function get_version() {
@@ -245,10 +258,28 @@ class Kring {
 
     public function Run() {
         require_once 'error.php';
+
+        //print_r($ipd);
+        if ($this->coreconf('accesslimit') == true) {
+            $ipd = json_decode($this->ipdtls(), true);
+            if (!in_array($ipd['country'], $this->coreconf('AllowedCountry'))) {
+                //echo "This Site is not available in your country";
+                setcookie('llid', $ipd['country']);
+                header("HTTP/1.0 404 Not Found");
+                exit();
+            }
+            if ($this->coreconf('AllowProxy') == false) {
+                if ($ipd['proxy'] == 1 || $ipd['proxy'] == true) {
+                    setcookie('llid', $ipd['country']);
+                    header("HTTP/1.0 404 Not Found");
+                    exit();
+                }
+            }
+        }
         $err = new \errorhndlr();
         $method = $this->getMethod();
         if (method_exists($this->getClass(), $method)) {
-            if ($this->getClass()->adminarea == 1 && !$this->isloggedin()) {
+            if ($this->getClass()->adminarea == 1 && !$this->isloggedin() && $this->coreconf("loginwithDB") == true) {
                 if (in_array($method, ['login', 'register', 'index', 'logout'], true)) {
                     if ($this->getAuthClass()) {
                         $auth = new \Auth();

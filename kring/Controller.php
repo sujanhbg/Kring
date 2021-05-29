@@ -123,6 +123,52 @@ class Controller {
         }
     }
 
+    /*
+     * LV direct print and
+     * LVR only return the value;
+     */
+
+    function lvr($filename, $data) {
+        $themepath = $this->kring()->coreconf('theme');
+        if (is_array($data)) {
+            $lang['null'] = "None";
+            $data = array_merge($data, $lang);
+            $keys = null;
+            foreach (array_keys($data) as $kaename) {
+                $keys .= "{" . "$kaename" . "},";
+            }
+            $keysearch = explode(",", rtrim($keys, ","));
+            $valuetoplce = null;
+            foreach (array_values($data) as $keyvalues) {
+                if (is_array($keyvalues)) {
+                    $valuetoplce .= "None,";
+                } else {
+                    $valuetoplce .= $keyvalues . ",";
+                }
+            }
+            $valuetoplce22 = explode(",", rtrim($valuetoplce, ","));
+            // style and script intrigation
+            $global_search = ["{baseurl}", "{ProjectName}", "{OrgName}"];
+            $global_paste = [$this->kring()->coreconf('baseurl'),
+                $this->kring()->conf('ProjectName'), $this->kring()->conf('OrgName')];
+            if (is_file($themepath . "/{$filename}.php")) {
+                $loaderfile = $themepath . "/{$filename}.php";
+                // echo $filename . "-In system folder<br>";
+            } else {
+
+                return $filename . ".php File not found in {$themepath}<br>";
+            }
+
+            $themedata = $this->includeFileContent($loaderfile, $data);
+            $themedata = str_ireplace($global_search, $global_paste, $themedata);
+
+            // print_r($valuetoplce22);
+            return str_ireplace($keysearch, $valuetoplce22, $themedata);
+        } else {
+            return "Error:: Data of this page cannot be initialize";
+        }
+    }
+
     function loadview($filename, $data) {
         $this->lv($filename, $data);
     }

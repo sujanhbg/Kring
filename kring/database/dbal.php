@@ -62,6 +62,35 @@ class dbal {
         return $returnArray;
     }
 
+    function get($table, $fields = "*", $where = null) {
+        $mysqli = $this->conn();
+        $wheresql = !$where || $where == null ? "" : "WHERE " . $where;
+        $qry = "SELECT {$fields} FROM {$table} {$wheresql}";
+        $result = $mysqli->query($qry);
+        if (!$mysqli->query($qry)) {
+            echo ("Error in Query:: <i><u>$qry</u></i> " . $mysqli->error);
+        }
+        $returnArray = array();
+        $i = 0;
+        while ($row = $result->fetch_array(MYSQLI_ASSOC))
+            if ($row)
+                $returnArray[$i++] = $row;
+        return $returnArray;
+    }
+
+    function get_single_result($sql) {
+        $mysqli = $this->conn();
+        $result = $mysqli->query($sql);
+        $value = $result->fetch_array(MYSQLI_NUM);
+        return is_array($value) ? $value[0] : "";
+    }
+
+    function get_single_row($sql) {
+        foreach ($this->query($sql) as $value) {
+            return $value;
+        }
+    }
+
     function query_exc($qry) {
 
         $mysqli = $this->conn();
@@ -74,13 +103,6 @@ class dbal {
         } else {
             return false;
         }
-    }
-
-    function get_single_result($sql) {
-        $mysqli = $this->conn();
-        $result = $mysqli->query($sql);
-        $value = $result->fetch_array(MYSQLI_NUM);
-        return is_array($value) ? $value[0] : "";
     }
 
     function get_current_db() {

@@ -81,9 +81,7 @@ class comm {
         $past = "::";
         if (isset($_GET[$varname])) {
             $string = explode("::", str_ireplace($search, $past, $_GET[$varname]));
-            if (!$string[0] || $string[0] == 0) {
-                header("HTTP/1.0 404 Not Found");
-            }
+
             // print_r($string);
             $return = $string[0];
         } else {
@@ -94,6 +92,10 @@ class comm {
             }
         }
         return $return;
+    }
+
+    function current_dateTime() {
+        return date('Y-m-d H:i:s');
     }
 
     function swiftmail() {

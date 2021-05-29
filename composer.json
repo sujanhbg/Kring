@@ -17,18 +17,14 @@
             "kring\\utilities\\": "kring/utilities"
         }
     },
-	"require-dev":{
-		"twig/twig": "^3.1",
-        "wixel/gump": "dev-master",
-        "nilportugues/sql-query-builder": "^1.8",
-        "tedivm/jshrink": "dev-master",
-        "phpmailer/phpmailer": "dev-master"
-	},
     "require": {
         "twig/twig": "^3.1",
         "wixel/gump": "dev-master",
         "nilportugues/sql-query-builder": "^1.8",
         "tedivm/jshrink": "dev-master",
-        "phpmailer/phpmailer": "dev-master"
+        "phpmailer/phpmailer": "dev-master",
+        "phelium/mysql-backup": "dev-master",
+        "html2text/html2text": "dev-master",
+        "gumlet/php-image-resize": "1.9.*"
     }
 }

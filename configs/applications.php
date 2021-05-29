@@ -27,5 +27,6 @@
 /* Default app called by any utl prefix */
 
 //When call with https://site.url/admin that load the apps_admin folder as your app
-$app['admin'] = "apps_admin";
+$app['krcpmain'] = "apps_admin";
 $app['kring'] = "apps_kring";
+$app['api'] = "apps_api";

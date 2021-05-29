@@ -27,5 +27,6 @@
 $db['driver'] = "mysqli";
 $db['host'] = "localhost";
 $db['user'] = "root";
+//$db['password'] = "RlupQkcQPmiJk63G";
 $db['password'] = "";
-$db['database'] = "bdenglish4exam";
+$db['database'] = "kalni_website";

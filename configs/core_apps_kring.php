@@ -31,3 +31,13 @@ $core['defaultMethod'] = "index";
 $core['defaultVersion'] = "dev-master";
 $core['baseurl'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? "https://" : "http://" . $_SERVER['SERVER_NAME'] . "/kring";
 $core['theme'] = dirname(__DIR__) . "/apps_kring/" . $core['defaultVersion'] . "/views";
+$core['accesslimit'] = false;
+$core['AllowedCountry'] = ["Bangladesh"];
+$core['AllowProxy'] = false;
+/*
+ * True if web want to save visitor log in database
+ * it need to more space to database
+ * couse this save every visitor request of website
+ */
+$core['SaveLogInDb'] = false;
+$core['loginwithDB'] = false;

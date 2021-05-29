@@ -29,22 +29,31 @@
 $core['defaultController'] = "Home";
 $core['defaultMethod'] = "index";
 $core['defaultVersion'] = "dev-master";
-$core['baseurl'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? "https://" : "http://" . $_SERVER['SERVER_NAME'] . "/krcpmain";
-$core['siteurl'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? "https://" : "http://" . $_SERVER['SERVER_NAME'];
-$core['theme'] = dirname(__DIR__) . "/apps_admin/" . $core['defaultVersion'] . "/views";
+$core['baseurl'] = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? "https://" : "http://" . $_SERVER['SERVER_NAME'] . "/api";
+$core['theme'] = dirname(__DIR__) . "/apps_api/" . $core['defaultVersion'] . "/views";
 $core['accesslimit'] = false;
 $core['AllowedCountry'] = ["Bangladesh"];
 $core['AllowProxy'] = false;
-$core['filepath'] = dirname(__DIR__) . "/public/imgs";
-$core['imagethumbspath'] = dirname(__DIR__) . "/public/thumb";
-$core['fileurl'] = $core['siteurl'] . "/imgs";
-$core['thumburl'] = $core['siteurl'] . "/thumb";
-$core['dbBackupFilePath'] = dirname(__DIR__) . "/kdata/dbbackup";
 /*
  * True if web want to save visitor log in database
  * it need to more space to database
  * couse this save every visitor request of website
  */
 $core['SaveLogInDb'] = false;
-$core['loginwithDB'] = true;
 
+/*
+ * True if web want to save visitor log in database
+ * it need to more space to database
+ * couse this save every visitor request of website
+ */
+$core['SaveLogInDb'] = false;
+
+/*
+ * Save IP Data in /kdata/ipdata directory
+ */
+$core['SaveIpDataInFile'] = false;
+
+/*
+ * Get Config from Database
+ */
+$core['GetCnfValFromDB'] = false;
