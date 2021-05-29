@@ -3,7 +3,7 @@
     "description": "A simple micro framework for php development",
     "type": "library",
     "license": "Apache-2.0",
-    "minimum-stability": "dev",
+    "minimum-stability": "dev-master",
 	"composer-runtime-api": "^2.0", 
     "authors": [
         {
